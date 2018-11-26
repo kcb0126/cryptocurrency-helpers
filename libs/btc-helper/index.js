@@ -26,7 +26,7 @@ const generateWallet = () => {
     }
 
     return {
-        privateKey: keyPair.toWIF(),
+        privkey: keyPair.toWIF(),
         address: bitcoinjs.payments.p2pkh({pubkey: keyPair.publicKey}).address,
     };
 };

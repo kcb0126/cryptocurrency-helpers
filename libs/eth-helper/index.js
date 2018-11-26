@@ -36,7 +36,7 @@ const generateWalletHex = () => {
     let address = utils.privateToAddress(privateKey);
 
     return {
-        privateKey: utils.bufferToHex(privateKey),
+        privkey: utils.bufferToHex(privateKey),
         address: utils.bufferToHex(address),
     };
 };
