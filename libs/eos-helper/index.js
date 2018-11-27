@@ -80,7 +80,7 @@ const sendEos = (fromAccount, fromActivePriv, toAccount, amountToSend, memo) => 
         deasync.sleep(100);
     }
 
-    return result.transaction_id
+    return result.transaction_id;
 };
 
 
