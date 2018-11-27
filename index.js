@@ -54,5 +54,19 @@ if(args[0].toUpperCase() === 'BTC') {
 
         process.exit();
 
+    } else if(args[1].toUpperCase() === 'SEND' && args.length >= 6) {
+
+        let fromAccount = args[2];
+        let fromActivePriv = args[3];
+        let toAccount = args[4];
+        let amountToSend = args[5];
+        let memo = args.length >= 7 ? args[6] : '';
+
+        let transaction_id = eos_helper.sendEos(fromAccount, fromActivePriv, toAccount, amountToSend, memo);
+
+        console.info(JSON.stringify({transaction_id: transaction_id}));
+
+        process.exit();
+
     }
 }

@@ -63,7 +63,7 @@ const sendEos = (fromAccount, fromActivePriv, toAccount, amountToSend, memo) => 
             data: {
                 from: fromAccount,
                 to: toAccount,
-                quantity: `${amountToSend.toFixed(4)} EOS`,
+                quantity: `${Number(amountToSend).toFixed(4)} EOS`,
                 memo: memo,
             }
         }],
