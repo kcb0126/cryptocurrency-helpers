@@ -60,7 +60,9 @@ const getBalance = (addr) => {
         require('deasync').sleep(100);
     }
 
-    return result;
+    const unit = bitcore.Unit;
+
+    return unit.fromSatoshis(result).toBTC();
 };
 
 
