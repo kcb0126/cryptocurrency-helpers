@@ -1,5 +1,7 @@
+require('dotenv').config();
 const btc_helper = require('./libs/btc-helper');
 const eth_helper = require('./libs/eth-helper');
+const eos_helper = require('./libs/eos-helper');
 
 let args = process.argv.slice(2);
 
