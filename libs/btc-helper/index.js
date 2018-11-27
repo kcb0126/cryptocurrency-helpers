@@ -106,9 +106,6 @@ const sendBtc = (fromAddr, fromPrivateKey, toAddr, amountToSend, includeFee = fa
                     balance += unit.fromSatoshis(parseInt(utxos[i]['satoshis'])).toSatoshis();
                 }
 
-                console.log('transactionAmount: ' + transactionAmount);
-                console.log('minerFee: ' + minerFee);
-                console.log('balance: ' + balance);
 
                 //check whether the balance of the address covers the miner fee
                 if ((balance - transactionAmount - minerFee) > 0) {
