@@ -20,11 +20,30 @@ if(args[0].toUpperCase() === 'BTC') {
 
         let address = args[2];
 
-        console.info(JSON.stringify({balance: btc_helper.getBalance(address)}))
+        console.info(JSON.stringify({balance: btc_helper.getBalance(address)}));
+
+        process.exit();
+
+    } else if(args[1].toUpperCase() === 'SEND' && args.length >= 6) {
+
+        let fromAddress = args[2];
+        let fromPrivateKey = args[3];
+        let toAddress = args[4];
+        let amountToSend = args[5];
+
+        let include = false;
+
+        if(args.length >= 7 && args[6].toUpperCase() === 'INCLUDE') include = true;
+
+        let transaction_id = btc_helper.sendBtc(fromAddress, fromPrivateKey, toAddress, amountToSend, include);
+
+        console.info(JSON.stringify({transaction_id: transaction_id}));
 
         process.exit();
 
     }
+
+
 } else if(args[0].toUpperCase() === 'ETH') {
     if(args.length === 1) process.exit();
 
@@ -42,7 +61,26 @@ if(args[0].toUpperCase() === 'BTC') {
 
         process.exit();
 
+    } else if(args[1].toUpperCase() === 'SEND' && args.length >= 6) {
+
+        let fromAddress = args[2];
+        let fromPrivateKey = args[3];
+        let toAddress = args[4];
+        let amountToSend = args[5];
+
+        let include = false;
+
+        if(args.length >= 7 && args[6].toUpperCase() === 'INCLUDE') include = true;
+
+        let transaction_id = eth_helper.sendEth(fromAddress, fromPrivateKey, toAddress, amountToSend, include);
+
+        console.info(JSON.stringify({transaction_id: transaction_id}));
+
+        process.exit();
+
     }
+
+
 } else if(args[0].toUpperCase() === 'EOS') {
     if(args.length === 1) process.exit();
 

@@ -172,8 +172,15 @@ const sendBtc = (fromAddr, fromPrivateKey, toAddr, amountToSend, includeFee = fa
 };
 
 
+const sendAllBtc = (fromAddr, fromPrivateKey, toAddr) => {
+
+    return sendBtc(fromAddr, fromPrivateKey, toAddr, getBalance(fromAddr), true);
+};
+
+
 module.exports = {
     generateWallet: generateWallet,
     getBalance: getBalance,
     sendBtc: sendBtc,
+    sendAllBtc: sendAllBtc,
 };
