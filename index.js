@@ -41,6 +41,18 @@ if(args[0].toUpperCase() === 'BTC') {
 
         process.exit();
 
+    } else if(args[1].toUpperCase() === 'SENDALL' && args.length > 5) {
+
+        let fromAddress = args[2];
+        let fromPrivateKey = args[3];
+        let toAddress = args[4];
+
+        let transaction_id = btc_helper.sendAllBtc(fromAddress, fromPrivateKey, toAddress);
+
+        console.info(JSON.stringify({transaction_id: transaction_id}));
+
+        process.exit();
+
     }
 
 
@@ -57,7 +69,7 @@ if(args[0].toUpperCase() === 'BTC') {
 
         let address = args[2];
 
-        console.info(JSON.stringify({balance: eth_helper.getBalance(address)}))
+        console.info(JSON.stringify({balance: eth_helper.getBalance(address)}));
 
         process.exit();
 
@@ -73,6 +85,18 @@ if(args[0].toUpperCase() === 'BTC') {
         if(args.length >= 7 && args[6].toUpperCase() === 'INCLUDE') include = true;
 
         let transaction_id = eth_helper.sendEth(fromAddress, fromPrivateKey, toAddress, amountToSend, include);
+
+        console.info(JSON.stringify({transaction_id: transaction_id}));
+
+        process.exit();
+
+    } else if(args[1].toUpperCase() === 'SENDALL' && args.length >= 5) {
+
+        let fromAddress = args[2];
+        let fromPrivateKey = args[3];
+        let toAddress = args[4];
+
+        let transaction_id = eth_helper.sendAllEth(fromAddress, fromPrivateKey, toAddress);
 
         console.info(JSON.stringify({transaction_id: transaction_id}));
 
