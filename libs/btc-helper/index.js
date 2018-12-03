@@ -51,7 +51,7 @@ const getBalance = (addr) => {
         try {
             result = JSON.parse(body).final_balance;
         } catch (e) {
-            return false;
+            result = false;
         }
 
     });
@@ -175,9 +175,66 @@ const sendAllBtc = (fromAddr, fromPrivateKey, toAddr) => {
 };
 
 
+const getTransactions = (addr) => {
+
+    const url = testmode ? `https://testnet.blockchain.info/address/${addr}?format=json` :
+        `https://blockchain.info/address/${addr}?format=json`;
+
+    let result = null;
+
+    request(url, function (error, response, body) {
+        if(error) {
+            result = false;
+        }
+
+        if(response.statusCode !== 200) {
+            result = false;
+        }
+
+        try {
+            result = JSON.parse(body);
+
+            let transactions = [];
+
+            const unit = bitcore.Unit;
+
+            // WARNING: THIS IS ONLY VALID FOR ONE TO ONE TRANSACTION(S)
+
+            result.txs.forEach(function(element) {
+                let transaction = {
+                    transaction_id: element.hash,
+                    from: element.inputs[0].prev_out.addr,
+                    to: element.out[0].addr,
+                    amount: unit.fromSatoshis(element.out[0].value).toBTC(),
+                    fee: unit.fromSatoshis(element.inputs[0].prev_out.value - element.out[0].value).toBTC(),
+                    timestamp: element.time,
+                };
+
+                transactions.push(transaction);
+            });
+
+            result = transactions;
+
+        } catch (e) {
+            result = false;
+        }
+
+    });
+
+    while(result === null) {
+        require('deasync').sleep(100);
+    }
+
+    const unit = bitcore.Unit;
+
+    return unit.fromSatoshis(result).toBTC();
+};
+
+
 module.exports = {
     generateWallet: generateWallet,
     getBalance: getBalance,
     sendBtc: sendBtc,
     sendAllBtc: sendAllBtc,
+    getTransactions: getTransactions,
 };

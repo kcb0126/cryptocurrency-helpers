@@ -3,12 +3,39 @@ const btc_helper = require('./libs/btc-helper');
 const eth_helper = require('./libs/eth-helper');
 const eos_helper = require('./libs/eos-helper');
 
+const showUsageExit = () => {
+    console.info('For help, run "node index --help"');
+    process.exit();
+};
+
 let args = process.argv.slice(2);
 
-if(args.length === 0) process.exit();
+if(args.length === 0) showUsageExit();
+
+if(args[0] === '--help') {
+
+    console.info('Usage: node index <coin> <command>');
+
+    console.info('');
+
+    console.info('coin: BTC, ETH, EOS');
+
+    console.info('');
+
+    console.info('command:');
+
+    console.info('CREATE: create a new wallet');
+    console.info('BALANCE: ');
+    console.info('SEND: ');
+    console.info('SENDALL: ');
+    console.info('TRANSACTIONS: ');
+
+    process.exit();
+
+}
 
 if(args[0].toUpperCase() === 'BTC') {
-    if(args.length === 1) process.exit();
+    if(args.length === 1) showUsageExit();
 
     if(args[1].toUpperCase() === 'CREATE') {
 
@@ -41,7 +68,7 @@ if(args[0].toUpperCase() === 'BTC') {
 
         process.exit();
 
-    } else if(args[1].toUpperCase() === 'SENDALL' && args.length > 5) {
+    } else if(args[1].toUpperCase() === 'SENDALL' && args.length >= 5) {
 
         let fromAddress = args[2];
         let fromPrivateKey = args[3];
@@ -53,11 +80,23 @@ if(args[0].toUpperCase() === 'BTC') {
 
         process.exit();
 
+    } else if(args[1].toUpperCase() === 'TRANSACTIONS' && args.length >= 3) {
+
+        let address = args[2];
+
+        let transactions = btc_helper.getTransactions(address);
+
+        console.info(JSON.stringify({transactions: transactions}));
+
+        process.exit();
+
+    } else {
+        showUsageExit();
     }
 
 
 } else if(args[0].toUpperCase() === 'ETH') {
-    if(args.length === 1) process.exit();
+    if(args.length === 1) showUsageExit();
 
     if(args[1].toUpperCase() === 'CREATE') {
 
@@ -102,11 +141,23 @@ if(args[0].toUpperCase() === 'BTC') {
 
         process.exit();
 
+    } else if(args[1].toUpperCase() === 'TRANSACTIONS' && args.length >= 3) {
+
+        let address = args[2];
+
+        let transactions = eth_helper.getTransactions(address);
+
+        console.info(JSON.stringify({transactions: transactions}));
+
+        process.exit();
+
+    } else {
+        showUsageExit();
     }
 
 
 } else if(args[0].toUpperCase() === 'EOS') {
-    if(args.length === 1) process.exit();
+    if(args.length === 1) showUsageExit();
 
     if(args[1].toUpperCase() === 'BALANCE' && args.length >= 3) {
 
@@ -130,5 +181,19 @@ if(args[0].toUpperCase() === 'BTC') {
 
         process.exit();
 
+    } else if(args[1].toUpperCase() === 'TRANSACTIONS' && args.length >= 3) {
+
+        let account = args[2];
+
+        let transactions = eos_helper.getTransactions(account);
+
+        console.info(JSON.stringify({transactions: transactions}));
+
+        process.exit();
+
+    } else {
+        showUsageExit();
     }
+} else {
+    showUsageExit();
 }

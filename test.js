@@ -1,6 +1,5 @@
-const printer = require('./libs/testlib')
-
 const eth_helper = require('./libs/eth-helper');
+const eos_helper = require('./libs/eos-helper');
 
 ///////////////// Sending Ethereum ///////////////////////////
 // let transactionId = eth_helper.sendEth(
@@ -10,8 +9,8 @@ const eth_helper = require('./libs/eth-helper');
 //     0.1
 // );
 
-const url = `https://rinkeby.etherscan.io/tx/${transactionId}`;
-console.log(url);
+// const url = `https://rinkeby.etherscan.io/tx/${transactionId}`;
+// console.log(url);
 
 ///////////////////// Getting Ethereum balance /////////////////////////
 // let balance = eth_helper.getBalance('0x376d3306288831F63546E31F518d8b40517a5ca1');
@@ -53,5 +52,12 @@ console.log(url);
 // console.log(wallet.privateKey);
 // console.log(wallet.address);
 
+
+// let v = eth_helper.getTransactions('0x8D9Cb689A3c275D98737F191FbE0baB717400175');
+// console.log(v);
+
+
+let actions = eos_helper.getTransactions('binadaimoney');
+console.log(actions);
 
 process.exit();

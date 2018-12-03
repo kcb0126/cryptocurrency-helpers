@@ -84,7 +84,53 @@ const sendEos = (fromAccount, fromActivePriv, toAccount, amountToSend, memo) => 
 };
 
 
+const getTransactions = (account) => {
+
+    let result = null;
+
+    eos.getActions(account, -1, -300).then(function(res) {
+
+        let transactions = [];
+
+        result = res;
+
+        if(result.hasOwnProperty('actions')) {
+            result.actions.forEach(function (element) {
+
+                let action_trace = element.action_trace;
+
+                let data = action_trace.act.data;
+
+                let transaction = {
+                    transaction_id: action_trace.trx_id,
+                    from: data.from,
+                    to: data.to,
+                    amount: Number(data.quantity.substr(0, data.quantity.length - 4)),
+                    memo: data.memo,
+                    timestamp: action_trace.block_time,
+                };
+
+                transactions.push(transaction);
+            });
+
+            result = transactions;
+        }
+
+    }, function (error) {
+        result = false;
+    });
+
+    while (result === null) {
+        require('deasync').sleep(100);
+    }
+
+    return result;
+
+};
+
+
 module.exports = {
     getBalance: getBalance,
     sendEos: sendEos,
+    getTransactions: getTransactions,
 };
