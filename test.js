@@ -1,3 +1,5 @@
+require('dotenv').config();
+const btc_helper = require('./libs/btc-helper');
 const eth_helper = require('./libs/eth-helper');
 const eos_helper = require('./libs/eos-helper');
 
@@ -53,11 +55,21 @@ const eos_helper = require('./libs/eos-helper');
 // console.log(wallet.address);
 
 
-// let v = eth_helper.getTransactions('0x8D9Cb689A3c275D98737F191FbE0baB717400175');
-// console.log(v);
+let v = eth_helper.getTransactions("0x10d6efad130e5387d0692a5a9b7ac0a656dc83f8");
+console.log(v);
 
 
-let actions = eos_helper.getTransactions('binadaimoney');
-console.log(actions);
+// let transactions = eos_helper.getTransactions('eosbinatoken');
+// console.log(transactions);
+//
+// process.exit();
 
-process.exit();
+
+// let tx_id = btc_helper.sendBtc('mtnYmvFVfj2oFNe3fbHStnG4yn7zLVFCvL', 'cQDCVrx8e4S144pUoVN9yxprx3FNhGxFfJkWCHKdSRoQ6b1Qkijc', 'n3dCm6NcRfAKPGDnG7AWQ9trsFi3jCmrrY', 0.01);
+// console.info(tx_id);
+
+// let tx_id = eos_helper.sendEos('binadaimoney', '5JrpWVNtDoB7pmjKkM6n8sLD82V5t5jTpiQJRiTeHWEuzYBMqVd', 'binadaieosio', 1, 'test')
+// console.info(tx_id);
+
+// $wallet = eth_helper.generateWallet();
+// console.info($wallet);

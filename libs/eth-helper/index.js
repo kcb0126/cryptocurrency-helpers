@@ -6,6 +6,7 @@ const log = require('ololog').configure({time: true});
 const keythereum = require('keythereum');
 const utils = require('ethereumjs-util');
 const request = require('request');
+const deasync = require('deasync');
 
 const testmode = process.env.TEST_MODE === 'true';
 
@@ -45,7 +46,7 @@ const generateWalletHex = () => {
     let address = utils.privateToAddress(privateKey);
 
     return {
-        privkey: utils.bufferToHex(privateKey),
+        privkey: utils.bufferToHex(privateKey).substr(2),
         address: utils.bufferToHex(address),
     };
 };
@@ -93,7 +94,11 @@ const sendEth = (fromAddr, fromPrivateKey, toAddr, amountToSend, includeGas = fa
      */
     const serializedTransaction = transaction.serialize();
 
-    return web3.eth.sendRawTransaction('0x' + serializedTransaction.toString('hex'));
+    let tx_id = web3.eth.sendRawTransaction('0x' + serializedTransaction.toString('hex'));
+
+    deasync.sleep(100);
+
+    return tx_id;
 };
 
 

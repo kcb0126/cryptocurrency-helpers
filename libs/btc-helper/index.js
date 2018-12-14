@@ -108,7 +108,7 @@ const sendBtc = (fromAddr, fromPrivateKey, toAddr, amountToSend, includeFee = fa
 
 
                 //check whether the balance of the address covers the miner fee
-                if ((balance - transactionAmount - minerFee) > 0) {
+                if ((balance - transactionAmount - minerFee) >= 0) {
 
                     //create a new transaction
                     try {
@@ -136,6 +136,7 @@ const sendBtc = (fromAddr, fromPrivateKey, toAddr, amountToSend, includeFee = fa
                             if (error) {
                                 reject('Error in broadcast: ' + error);
                             } else {
+                                transactionId = body;
                                 resolve(transactionId);
                             }
                         });
@@ -225,9 +226,7 @@ const getTransactions = (addr) => {
         require('deasync').sleep(100);
     }
 
-    const unit = bitcore.Unit;
-
-    return unit.fromSatoshis(result).toBTC();
+    return result;
 };
 
 

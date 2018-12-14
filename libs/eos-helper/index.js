@@ -7,9 +7,10 @@ const testmode = process.env.TEST_MODE === 'true';
 
 
 const kylinnet = 'https://api-kylin.eosasia.one';
-const huobipool = 'http://peer1.eoshuobipool.com:8181';
+const huobipool = 'http://peer2.eoshuobipool.com:8181';
+const greymass = 'https://eos.greymass.com';
 
-const apiEndpoint = testmode ? kylinnet : huobipool;
+const apiEndpoint = testmode ? kylinnet : greymass;
 
 const rpc = new JsonRpc(apiEndpoint, { fetch });
 
@@ -88,16 +89,16 @@ const getTransactions = (account) => {
 
     let result = null;
 
-    eos.getActions(account, -1, -300).then(function(res) {
+    eos.getActions(account, -1, -100).then(function(res) {
 
         let transactions = [];
 
-        result = res;
-
-        if(result.hasOwnProperty('actions')) {
-            result.actions.forEach(function (element) {
+        if(res.hasOwnProperty('actions')) {
+            res.actions.forEach(function (element) {
 
                 let action_trace = element.action_trace;
+
+                if(action_trace.act.name !== 'transfer') return;
 
                 let data = action_trace.act.data;
 
